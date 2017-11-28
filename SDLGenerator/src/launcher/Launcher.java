@@ -10,7 +10,6 @@ public class Launcher {
 
 	public static void main(String[] args) {
 		SDLSystem s = ParseManager.parse(new File("TestXML.xml"));
-		System.out.println("perdu");
 		
 		Visitor v = new Visitor();
 		

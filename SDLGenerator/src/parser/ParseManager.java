@@ -9,6 +9,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import model.elements.SDLChannel;
 import model.elements.SDLProcess;
 import model.elements.SDLSystem;
 
@@ -30,15 +31,24 @@ public class ParseManager {
 			
 			Node system = document.getElementsByTagName("System").item(0);
 			
-			NodeList processes = system.getChildNodes();
-			
 			SDLSystem sys =  new SDLSystem(getItemProperty(system, "name"));
 			
-			for(int i = 0; i < processes.getLength(); i++)
+
+			NodeList sysChildren = system.getChildNodes();
+			
+			for(int i = 0; i < sysChildren.getLength(); i++)
 			{
-				if(processes.item(i).getNodeName().compareTo("Process") == 0)
+				if(sysChildren.item(i).getNodeName().compareTo("Process") == 0)
 				{
-					sys.addProcess(new SDLProcess(getItemProperty(processes.item(i), "name")));
+					sys.addProcess(new SDLProcess(getItemProperty(sysChildren.item(i), "name")));
+				}
+			}	
+			
+			for(int i = 0; i < sysChildren.getLength(); i++)
+			{
+				if(sysChildren.item(i).getNodeName().compareTo("Channel") == 0)
+				{
+					sys.addChannel(new SDLChannel(getItemProperty(sysChildren.item(i), "name")));
 				}
 			}			
 			

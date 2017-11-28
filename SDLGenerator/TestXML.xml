@@ -10,4 +10,12 @@
 	<Process>
 		<name>Jean-Perdu</name>
 	</Process>
+	<Channel>
+		<name>leGentilChannel</name>
+		<signal>coucou</signal>
+	</Channel>
+	<Channel>
+		<name>leMechantChannel</name>
+		<signal>perdu</signal>
+	</Channel>
 </System>
