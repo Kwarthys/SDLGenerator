@@ -7,7 +7,9 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
+import model.elements.SDLProcess;
 import model.elements.SDLSystem;
 
 public class ParseManager {
@@ -28,16 +30,29 @@ public class ParseManager {
 			
 			Node system = document.getElementsByTagName("System").item(0);
 			
+			NodeList processes = system.getChildNodes();
+			
+			SDLSystem sys =  new SDLSystem(getItemProperty(system, "name"));
+			
+			for(int i = 0; i < processes.getLength(); i++)
+			{
+				if(processes.item(i).getNodeName().compareTo("Process") == 0)
+				{
+					sys.addProcess(new SDLProcess(getItemProperty(processes.item(i), "name")));
+				}
+			}			
+			
+			/*
 			System.out.println(getItemProperty(system, "name"));
 			
 			Node process = document.getElementsByTagName("Process").item(0);
 			
 			System.out.println(getItemProperty(process, "name"));
-			
+			*/
 			//String usr = document.getElementsByTagName("user").item(0).getTextContent();
 			//String pwd = document.getElementsByTagName("password").item(0).getTextContent();
 			
-			return new SDLSystem(getItemProperty(system, "name"));
+			return sys;
 			
 		} catch (Exception e) {
 			e.printStackTrace();

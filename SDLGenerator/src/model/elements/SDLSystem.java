@@ -3,14 +3,19 @@ package model.elements;
 import java.util.ArrayList;
 
 import model.SDLElement;
+import visitor.Visitor;
 
 public class SDLSystem extends SDLElement {
 	
 	protected ArrayList<SDLProcess> processes = new ArrayList<>();
 
+	public ArrayList<SDLProcess> getProcesses() {
+		return processes;
+	}
+
 	public SDLSystem(String name)
 	{
-		this.name = name;
+		super(name);
 	}
 	
 	public void addProcess(SDLProcess p)
@@ -19,5 +24,10 @@ public class SDLSystem extends SDLElement {
 		{
 			processes.add(p);
 		}
+	}
+
+	@Override
+	public void accept(Visitor visitor) {
+		visitor.visitSDLSystem(this);
 	}
 }

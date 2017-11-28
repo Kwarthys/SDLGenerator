@@ -1,7 +1,14 @@
 package model;
 
-public class SDLElement {
+import visitor.Visitable;
+import visitor.Visitor;
+
+public abstract class SDLElement implements Visitable{
 	protected String name;
+	
+	public SDLElement(String name) {
+		this.name = name;
+	}
 	
 	public void setName(String name)
 	{
@@ -12,4 +19,7 @@ public class SDLElement {
 	{
 		return name;
 	}
+
+	@Override
+	abstract public void accept(Visitor visitor);
 }
