@@ -14,6 +14,8 @@ public class Launcher {
 		Visitor v = new Visitor();
 		
 		s.accept(v);
+		
+		System.out.println(v.getResult());
 	}
 
 }

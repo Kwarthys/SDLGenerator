@@ -48,7 +48,7 @@ public class ParseManager {
 			{
 				if(sysChildren.item(i).getNodeName().compareTo("Channel") == 0)
 				{
-					sys.addChannel(new SDLChannel(getItemProperty(sysChildren.item(i), "name")));
+					sys.addChannel(new SDLChannel(getItemProperty(sysChildren.item(i), "name"), getItemProperty(sysChildren.item(i), "signal"), getItemProperty(sysChildren.item(i), "end")));
 				}
 			}			
 			

@@ -13,9 +13,11 @@
 	<Channel>
 		<name>leGentilChannel</name>
 		<signal>coucou</signal>
+		<end>leMechantChannel</end>
 	</Channel>
 	<Channel>
 		<name>leMechantChannel</name>
 		<signal>perdu</signal>
+		<end>leGentilChannel</end>
 	</Channel>
 </System>
