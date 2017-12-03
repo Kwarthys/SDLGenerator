@@ -12,6 +12,8 @@ import org.w3c.dom.NodeList;
 import model.elements.SDLChannel;
 import model.elements.SDLProcess;
 import model.elements.SDLSystem;
+import model.elements.processitems.SDLCommand;
+import model.elements.processitems.SDLState;
 
 public class ParseManager {
 	
@@ -36,19 +38,47 @@ public class ParseManager {
 
 			NodeList sysChildren = system.getChildNodes();
 			
-			for(int i = 0; i < sysChildren.getLength(); i++)
+			for(int i = 0; i < sysChildren.getLength(); i++)		/*** LOOKING FOR PROCESSES ***/
 			{
 				if(sysChildren.item(i).getNodeName().compareTo("Process") == 0)
 				{
-					sys.addProcess(new SDLProcess(getItemProperty(sysChildren.item(i), "name")));
+					SDLProcess p = new SDLProcess(getItemProperty(sysChildren.item(i), "name"));
+					
+					
+					NodeList processChildren = sysChildren.item(i).getChildNodes();
+					
+					for(int statei = 0; statei < processChildren.getLength(); statei++) /*** LOOKING FOR STATES IN PROCESSES ***/
+					{
+						if(processChildren.item(statei).getNodeName().compareTo("State") == 0)
+						{
+							SDLState state = new SDLState(getItemProperty(processChildren.item(statei), "name"));
+							
+							
+							NodeList stateChildren = processChildren.item(statei).getChildNodes();
+							
+							for(int commandi = 0; commandi < stateChildren.getLength(); commandi++) /*** LOOKING FOR COMMANDS IN STATES ***/
+							{
+								if(stateChildren.item(commandi).getNodeName().compareTo("command") == 0)
+								{
+									SDLCommand c = new SDLCommand(getItemProperty(stateChildren.item(commandi), "name"));
+									
+									state.addCommand(c);
+								}
+							}
+							
+							p.addState(state);
+						}
+					}
+					
+					
+					sys.addProcess(p);
 				}
-			}	
-			
-			for(int i = 0; i < sysChildren.getLength(); i++)
-			{
-				if(sysChildren.item(i).getNodeName().compareTo("Channel") == 0)
+				
+				else if(sysChildren.item(i).getNodeName().compareTo("Channel") == 0)
 				{
-					sys.addChannel(new SDLChannel(getItemProperty(sysChildren.item(i), "name"), getItemProperty(sysChildren.item(i), "signal"), getItemProperty(sysChildren.item(i), "end")));
+					SDLChannel chan = new SDLChannel(getItemProperty(sysChildren.item(i), "name"), getItemProperty(sysChildren.item(i), "signal"), getItemProperty(sysChildren.item(i), "end"));
+					chan.setFromTo(getItemProperty(sysChildren.item(i), "in"), getItemProperty(sysChildren.item(i), "out"));
+					sys.addChannel(chan);
 				}
 			}			
 			

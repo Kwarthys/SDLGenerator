@@ -3,6 +3,8 @@ package visitor;
 import model.elements.SDLChannel;
 import model.elements.SDLProcess;
 import model.elements.SDLSystem;
+import model.elements.processitems.SDLCommand;
+import model.elements.processitems.SDLState;
 
 public class Visitor {
 	
@@ -18,6 +20,17 @@ public class Visitor {
 	public void visitSDLProcess(SDLProcess process)
 	{
 		result.append("process " + process.getName() + "\n");
+		
+		if(!process.getStates().isEmpty())
+		{
+			result.append(indent + "start;\n");
+			result.append(indent + "nextState " + process.getStates().get(0).getName() + ";\n\n");
+		
+			for(SDLState state : process.getStates())
+			{
+				state.accept(this);
+			}
+		}		
 		result.append("endprocess " + process.getName() + "\n" + "\n");
 	}
 	
@@ -44,8 +57,27 @@ public class Visitor {
 
 	public void visitSDLChannel(SDLChannel channel)
 	{
-		result.append(indent + "channel " + channel.getName() + " nodelay from X to Y with " + channel.getSignal() + ";\n");
+		result.append(indent + "channel " + channel.getName() + " nodelay from " + channel.getFrom() + " to " + channel.getTo() + " with " + channel.getSignal() + ";\n");
 		result.append(indent + "endchannel " + channel.getEndChannel() + ";\n\n");
+	}
+
+	public void visitSDLState(SDLState state)
+	{
+		result.append(indent + "state " + state.getName() + ";\n");
+		
+		for(SDLCommand c : state.getCommands())
+		{
+			c.accept(this);
+		}
+
+		result.append(indent + indent + "nextstate " + "NYI" + ";\n");
+		
+		result.append(indent + "endstate " + state.getName() + ";\n\n");
+	}
+
+	public void visitSDLCommand(SDLCommand cmd)
+	{
+		result.append(indent + indent + cmd.getName() + ";\n");
 	}
 
 	protected String createProcessDefinition(SDLSystem s)

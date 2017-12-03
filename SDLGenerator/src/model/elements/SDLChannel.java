@@ -7,6 +7,24 @@ public class SDLChannel extends SDLElement {
 
 	protected String signal;
 	protected String endChannel;
+	protected String from;
+	protected String to;
+	
+	public String getFrom()
+	{
+		return this.from;
+	}
+	
+	public String getTo()
+	{
+		return this.to;
+	}
+	
+	public void setFromTo(String from, String to)
+	{
+		this.from = from;
+		this.to = to;
+	}
 
 	public String getEndChannel() {
 		return endChannel;

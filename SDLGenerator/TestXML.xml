@@ -9,15 +9,29 @@
 	</Process>
 	<Process>
 		<name>Jean-Perdu</name>
+		<State>
+			<name>idle</name>
+			<command>
+				<name>input coucou</name>
+			</command>
+			<command>
+				<name>output perdu</name>
+			</command>
+			<nextState>idle</nextState>
+		</State>
 	</Process>
 	<Channel>
 		<name>leGentilChannel</name>
 		<signal>coucou</signal>
 		<end>leMechantChannel</end>
+		<in>env</in>
+		<out>B</out>
 	</Channel>
 	<Channel>
 		<name>leMechantChannel</name>
 		<signal>perdu</signal>
 		<end>leGentilChannel</end>
+		<in>B</in>
+		<out>env</out>
 	</Channel>
 </System>
