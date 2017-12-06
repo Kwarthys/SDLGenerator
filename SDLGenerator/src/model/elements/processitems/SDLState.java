@@ -8,6 +8,16 @@ import visitor.Visitor;
 public class SDLState extends SDLElement{	
 
 	protected ArrayList<SDLCommand> commands = new ArrayList<>();
+	
+	protected String nextStateName;
+
+	public String getNextStateName() {
+		return nextStateName;
+	}
+
+	public void setNextStateName(String nextStateName) {
+		this.nextStateName = nextStateName;
+	}
 
 	public SDLState(String name) {
 		super(name);

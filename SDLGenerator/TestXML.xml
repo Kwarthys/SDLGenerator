@@ -1,25 +1,38 @@
 <?xml version='1.0'?>
 <System>
 	<name>Jean-Pierre</name>
-	<Process>
-		<name>Jean-Process</name>
-	</Process>
-	<Process>
-		<name>Jean-Princess</name>
-	</Process>
-	<Process>
-		<name>Jean-Perdu</name>
-		<State>
-			<name>idle</name>
-			<command>
-				<name>input coucou</name>
-			</command>
-			<command>
-				<name>output perdu</name>
-			</command>
-			<nextState>idle</nextState>
-		</State>
-	</Process>
+	<Block>
+		<name>The Block</name>
+		<Process>
+			<name>Jean-Perdu</name>
+			<State>
+				<name>idle</name>
+				<command>
+					<name>input coucou</name>
+				</command>
+				<command>
+					<name>output perdu</name>
+				</command>
+				<nextState>idle</nextState>
+			</State>
+		</Process>
+		<Channel>
+			<name>inner1</name>
+			<signal>coucou</signal>
+			<end>inner2</end>
+			<in>env</in>
+			<out>P</out>
+		</Channel>
+		<Channel>
+			<name>inner2</name>
+			<signal>perdu</signal>
+			<end>inner1</end>
+			<in>P</in>
+			<out>env</out>
+		</Channel>
+		<connect>inner1 and coucou</connect>
+		<connect>inner2 and perdu</connect>
+	</Block>
 	<Channel>
 		<name>leGentilChannel</name>
 		<signal>coucou</signal>

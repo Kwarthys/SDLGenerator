@@ -1,5 +1,6 @@
 package visitor;
 
+import model.elements.SDLBlock;
 import model.elements.SDLChannel;
 import model.elements.SDLProcess;
 import model.elements.SDLSystem;
@@ -38,18 +39,44 @@ public class Visitor {
 	{
 		result.append("System " + system.getName() + "\n");
 
+		result.append(createBlockDefinition(system) + "\n");
+
 		result.append(createSignalDefinition(system) + "\n");
 		
 		for(SDLChannel c : system.getChannels())
 		{
 			c.accept(this);
 		}
-		
-		result.append(createProcessDefinition(system) + "\n");
 
 		result.append("endsystem " + system.getName() + "\n\n");
 		
-		for(SDLProcess p : system.getProcesses())
+		for(SDLBlock b : system.getBlocks())
+		{
+			b.accept(this);
+		}
+	}
+
+	public void visitSDLBlock(SDLBlock block)
+	{
+		result.append("block " + block.getName() + "\n");
+		
+		for(SDLChannel c : block.getChannels())
+		{
+			c.accept(this);
+		}
+		
+		result.append(createProcessDefinition(block) + "\n");
+		
+		for(String connect : block.getConnections())
+		{
+			result.append(indent + "connect " + connect + ";\n");
+		}
+		
+		result.append("\n");
+
+		result.append("endblock " + block.getName() + "\n\n");
+		
+		for(SDLProcess p : block.getProcesses())
 		{
 			p.accept(this);
 		}
@@ -70,7 +97,7 @@ public class Visitor {
 			c.accept(this);
 		}
 
-		result.append(indent + indent + "nextstate " + "NYI" + ";\n");
+		result.append(indent + indent + "nextstate " + state.getNextStateName() + ";\n");
 		
 		result.append(indent + "endstate " + state.getName() + ";\n\n");
 	}
@@ -79,18 +106,35 @@ public class Visitor {
 	{
 		result.append(indent + indent + cmd.getName() + ";\n");
 	}
+	
+	protected String createBlockDefinition(SDLSystem system)
+	{
+		StringBuffer code = new StringBuffer();
+		
+		if(!system.getBlocks().isEmpty())
+		{			
+			for(int i = 0; i < system.getBlocks().size(); i++)
+			{
+				code.append(indent + "block ");
+				SDLBlock block = system.getBlocks().get(i);
+				code.append(block.getName() + " referenced;\n");
+			}			
+		}
+		
+		return code.toString();
+	}
 
-	protected String createProcessDefinition(SDLSystem s)
+	protected String createProcessDefinition(SDLBlock b)
 	{		
 		StringBuffer code = new StringBuffer();
 		
-		if(!s.getProcesses().isEmpty())
+		if(!b.getProcesses().isEmpty())
 		{
 			
-			for(int i = 0; i < s.getProcesses().size(); i++)
+			for(int i = 0; i < b.getProcesses().size(); i++)
 			{
 				code.append(indent + "process ");
-				SDLProcess p = s.getProcesses().get(i);
+				SDLProcess p = b.getProcesses().get(i);
 				code.append(p.getName() + " referenced;\n");
 			}
 			

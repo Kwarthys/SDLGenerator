@@ -7,28 +7,12 @@ import visitor.Visitor;
 
 public class SDLSystem extends SDLElement {
 
-	protected ArrayList<SDLProcess> processes = new ArrayList<>();
 	protected ArrayList<SDLChannel> channels = new ArrayList<>();
-
-	public ArrayList<SDLProcess> getProcesses() {
-		return processes;
-	}
-
-	public ArrayList<SDLChannel> getChannels() {
-		return channels;
-	}
+	protected ArrayList<SDLBlock> blocks = new ArrayList<>();
 
 	public SDLSystem(String name)
 	{
 		super(name);
-	}
-	
-	public void addProcess(SDLProcess p)
-	{
-		if(!processes.contains(p))
-		{
-			processes.add(p);
-		}
 	}
 
 	@Override
@@ -42,5 +26,21 @@ public class SDLSystem extends SDLElement {
 		{
 			channels.add(c);
 		}		
+	}
+
+	public ArrayList<SDLChannel> getChannels() {
+		return channels;
+	}
+
+	public void addBlock(SDLBlock b)
+	{
+		if(!blocks.contains(b))
+		{
+			blocks.add(b);
+		}		
+	}
+
+	public ArrayList<SDLBlock> getBlocks() {
+		return blocks;
 	}
 }
