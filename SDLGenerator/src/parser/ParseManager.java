@@ -39,7 +39,7 @@ public class ParseManager {
 
 			NodeList sysChildren = system.getChildNodes();
 			
-			for(int i = 0; i < sysChildren.getLength(); i++)		/*** LOOKING FOR BLOCKS ***/
+			for(int i = 0; i < sysChildren.getLength(); i++)		/*** LOOKING FOR BLOCKS IN SYSTEM ***/
 			{
 				if(sysChildren.item(i).getNodeName().compareTo("Block") == 0)
 				{

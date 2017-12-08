@@ -4,6 +4,8 @@ import model.SDLElement;
 import visitor.Visitor;
 
 public class SDLCommand extends SDLElement{
+	
+	protected String transition;
 
 	public SDLCommand(String name) {
 		super(name);
